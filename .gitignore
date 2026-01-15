@@ -1,0 +1,57 @@
+# Ignore WordPress core files
+wordpress/wp-content/uploads/
+wordpress/wp-content/cache/
+wordpress/wp-content/plugins/
+wordpress/wp-content/themes/
+wordpress/wp-content/upgrade/
+wordpress/wp-content/backups/
+wordpress/wp-content/ai1wm-backups/
+wordpress/wp-content/mu-plugins/
+wordpress/wp-content/languages/
+wordpress/wp-content/*.log
+wordpress/wp-content/debug.log
+wordpress/wp-content/*.sql
+wordpress/wp-content/*.zip
+wordpress/wp-content/*.tar.gz
+
+# Ignore Apache/SSL certs
+apache-php/certs/
+
+# Ignore OS generated files
+.DS_Store
+Thumbs.db
+
+# Ignore logs
+*.log
+
+# Ignore environment files
+.env
+
+
+# Ignore node_modules (if any)
+node_modules/
+
+# Ignore composer dependencies (if any)
+vendor/
+
+# Ignore IDE/editor folders
+.vscode/
+.idea/
+
+# Ignore Docker files
+*.pid
+*.seed
+*.bak
+*.swp
+
+# Ignore backup files
+*.bak
+*.tmp
+~$*
+
+# Ignore other system files
+*.swp
+*.swo
+
+# Ignore git itself
+.git/

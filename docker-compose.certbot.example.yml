@@ -1,0 +1,53 @@
+version: '3.8'
+services:
+  apache-php:
+    image: php:8.2-apache
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./wordpress:/var/www/html
+      - ./apache-php/conf:/etc/apache2/sites-enabled
+      - ./apache-php/certs:/etc/apache2/certs
+      - ./apache-php/enable-rewrite.sh:/enable-rewrite.sh
+      - certbot-etc:/etc/letsencrypt
+      - certbot-var:/var/lib/letsencrypt
+    environment:
+      WORDPRESS_DB_HOST: ${WORDPRESS_DB_HOST}
+      WORDPRESS_DB_USER: ${WORDPRESS_DB_USER}
+      WORDPRESS_DB_PASSWORD: ${WORDPRESS_DB_PASSWORD}
+      WORDPRESS_DB_NAME: ${WORDPRESS_DB_NAME}
+    depends_on:
+      - db
+    entrypoint: ["/bin/bash", "/enable-rewrite.sh"]
+    # All volumes merged above
+
+  db:
+    image: mysql:8.0
+    restart: always
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+
+  certbot:
+    image: certbot/certbot
+    volumes:
+      - certbot-etc:/etc/letsencrypt
+      - certbot-var:/var/lib/letsencrypt
+      - ./apache-php/certs:/etc/apache2/certs
+    # entrypoint: /bin/sh -c
+    # Example: obtain certificate (replace with your domain and email)
+    # "certbot certonly --webroot -w /var/www/html -d yourdomain.com --email you@example.com --agree-tos --no-eff-email"
+    # For renewal, use: "certbot renew"
+
+volumes:
+  db_data:
+  certbot-etc:
+  certbot-var:
